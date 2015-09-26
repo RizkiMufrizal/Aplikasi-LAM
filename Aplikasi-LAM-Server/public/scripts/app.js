@@ -9,6 +9,7 @@ angular
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '../templates/beranda.html'
+        templateUrl: '../templates/beranda.html',
+        controller: 'PostController'
       });
   }]);
