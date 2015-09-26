@@ -17,7 +17,11 @@ var cookieParser = require('cookie-parser');
 var errorhandler = require('errorhandler');
 var bodyParser = require('body-parser');
 var logger = require('./configs/logger');
+
 var User = require('./models/user');
+
+var UserRoute = require('./routers/UserRoute');
+var PostRoute = require('./routers/PostRoute');
 
 var csrfProtection = csrf({
   cookie: true
@@ -76,6 +80,8 @@ passport.use(new LocalStrategy(
     });
   }
 ));
+
+app.use('/api', UserRoute);
 
 //batas csrf
 app.use(csrfProtection);
@@ -155,7 +161,7 @@ app.use(function(err, req, res, next) {
   res.send('form tampered with');
 });
 
-//io.on('connection', ChatRoute);
+io.on('connection', PostRoute);
 
 http.listen(app.get('port'), function() {
   logger.info('Server jalan pada port ' + app.get('port'));
