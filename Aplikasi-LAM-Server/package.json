@@ -1,0 +1,36 @@
+{
+  "name": "aplikasi-lam-server",
+  "version": "1.0.0",
+  "description": "belajar membuat aplikasi production",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RizkiMufrizal/Aplikasi-LAM.git"
+  },
+  "author": "rizki mufrizal (mufrizalrizki@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RizkiMufrizal/Aplikasi-LAM/issues"
+  },
+  "homepage": "https://github.com/RizkiMufrizal/Aplikasi-LAM#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.0",
+    "cookie-parser": "^1.4.0",
+    "csurf": "^1.8.3",
+    "ejs": "^2.3.4",
+    "errorhandler": "^1.4.2",
+    "express": "^4.13.3",
+    "express-partials": "^0.3.0",
+    "express-session": "^1.11.3",
+    "mongoose": "^4.1.8",
+    "morgan": "^1.6.1",
+    "passport": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "socket.io": "^1.3.7",
+    "winston": "^1.0.1"
+  }
+}
