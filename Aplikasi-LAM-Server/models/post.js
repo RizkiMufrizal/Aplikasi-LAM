@@ -27,7 +27,7 @@ post = new Schema({
   },
   like: {
     type: 'array',
-    required: true
+    required: false
   }
 }, {
   collection: 'tb_post'
