@@ -1,10 +1,26 @@
 <div class="row">
   <div class="col-md-8">
-    <div class="jumbotron">
 
+    <form>
+      <div class="form-group">
+        <textarea class="form-control" type="text" ng-model="isiPost" placeholder="Silahkan Masukkan Aspirasi Anda"></textarea>
+      </div>
+      <div class="form-group text-right">
+        <button type="button" ng-click="kirimAspirasi(isiPost)" class="btn btn-success">Kirim</button>
+      </div>
+    </form>
+    <div class="jumbotron" ng-repeat="p in dataPost">
+      {{p.isiPost}}
     </div>
   </div>
   <div class="col-md-4">
-    
+    <div class="list-group">
+      <div class="list-group-item active">
+        Time Line
+      </div>
+      <!-- <div ng-repeat="u in userOnline">
+        <a ng-click="pilihTemanChat(u)" href="" class="list-group-item">{{u}}</a>
+      </div> -->
+    </div>
   </div>
 </div>
