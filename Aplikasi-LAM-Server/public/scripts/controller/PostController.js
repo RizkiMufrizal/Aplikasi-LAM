@@ -38,4 +38,35 @@ angular.module('AplikasiLAM')
       $scope.$apply();
     });
 
+    $scope.kirimKomentar = function(komentar, id) {
+      $scope.dataKomentar = {};
+      $scope.dataKomentar.komentar = komentar;
+      $scope.dataKomentar.id = id;
+      $scope.dataKomentar.nama = ipCookie('nama');
+
+      for (var i in $scope.dataPost) {
+        if ($scope.dataPost[i]._id === id) {
+          $scope.dataPost[i].komentar.push({
+            nama: ipCookie('nama'),
+            komentar: komentar
+          });
+        }
+      }
+
+      Socket.emit('post:komentar', $scope.dataKomentar);
+    };
+
+    Socket.on('post:komentar', function(data) {
+      for (var i in $scope.dataPost) {
+        if ($scope.dataPost[i]._id === data.id) {
+          $scope.dataPost[i].komentar.push({
+            nama: data.nama,
+            komentar: data.komentar
+          });
+        }
+      }
+      $scope.$apply();
+
+    });
+
   }]);
