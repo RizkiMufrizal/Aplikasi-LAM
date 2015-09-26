@@ -27,4 +27,21 @@ module.exports = function(socket) {
 
   });
 
+  socket.on('post:komentar', function(data) {
+    logger.debug(data);
+    socket.broadcast.emit('post:komentar', data);
+
+    Post.findOne({
+      _id: data.id
+    }, function(err, post) {
+      post.komentar.push({
+        nama: data.nama,
+        komentar: data.komentar
+      });
+
+      post.save();
+    });
+
+  });
+
 };
