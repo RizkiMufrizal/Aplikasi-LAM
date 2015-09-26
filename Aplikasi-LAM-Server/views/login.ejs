@@ -1,0 +1,24 @@
+<div ng-controller="LoginController">
+  <link href="../styles/login.css" rel="stylesheet">
+
+  <form class="form-signin" action="/login" method="post">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <label class="sr-only">Email</label>
+    <input type="email" name="username" placeholder="Email" class="form-control" ng-model="email">
+
+    <label class="sr-only">Password</label>
+    <input type="password" name="password" placeholder="Password" class="form-control">
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="name" value="remember-me"> Remember Me
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="processLogin(email)">
+      Login
+    </button>
+
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  </form>
+</div>
