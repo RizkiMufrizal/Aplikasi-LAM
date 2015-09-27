@@ -27,16 +27,16 @@
             {{p.isiPost}}
           </div>
           <div class='timeline-footer'>
-            <a class="btn btn-primary btn-xs"><i class="fa fa-thumbs-o-up"></i> Suka</a>
+            <a class="btn btn-primary btn-xs" ng-click="kirimLike(p._id)"><i class="fa fa-thumbs-o-up"></i> Suka</a>
             <a class="btn btn-danger btn-xs" ng-click="munculKomentar(p._id)"><i class="fa fa-comments-o"></i> Komentar</a>
           </div>
-          <div style="left: 10px; position: relative" ng-if="p.like.length !== 0 && p.komentar.length !== 0">
+          <div style="left: 10px; position: relative" ng-if="p.like.length !== 0 && p.komentar.length !== 0 && p.like.length !== undefined && p.komentar.length !== undefined">
             {{p.like.length}} Menyukai dan {{p.komentar.length}} Komentar
           </div>
-          <div style="left: 10px; position: relative" ng-if="p.like.length !== 0 && p.komentar.length === 0">
+          <div style="left: 10px; position: relative" ng-if="p.like.length !== 0 && p.komentar.length === 0 && p.like.length !== undefined">
             {{p.like.length}} Menyukai
           </div>
-          <div style="left: 10px; position: relative" ng-if="p.like.length === 0 && p.komentar.length !== 0">
+          <div style="left: 10px; position: relative" ng-if="p.like.length === 0 && p.komentar.length !== 0 && p.komentar.length !== undefined">
             {{p.komentar.length}} Komentar
           </div>
           <div class="timeline-footer" ng-if="p._id === dataId">
@@ -49,6 +49,24 @@
       </li>
   </div>
   <div class="col-md-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading text-center">Time Line</div>
+      <div scroll-glue-bottom="glued">
 
+        <div class="list-group">
+          <div ng-repeat="t in dataTimeLine">
+            <a href="" class="list-group-item" ng-if="t.like !== undefined">
+              {{t.namaLike}} Menyukai aspirasi {{t.nama}}
+            </a>
+            <a href="" class="list-group-item list-group-item-success" ng-if="t.isiPost !== undefined">
+              {{t.nama}} Mengirim Aspirasi
+            </a>
+            <a href="" class="list-group-item list-group-item-info" ng-if="t.komentar !== undefined">
+              {{t.namaKomentator}} Mengomentari aspirasi {{t.nama}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
