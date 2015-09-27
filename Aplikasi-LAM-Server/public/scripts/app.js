@@ -12,5 +12,8 @@ angular
       .when('/', {
         templateUrl: '../templates/beranda.html',
         controller: 'PostController'
+      })
+      .when('/about', {
+        templateUrl: '../templates/about.html'
       });
   }]);
