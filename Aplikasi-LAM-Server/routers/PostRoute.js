@@ -27,6 +27,8 @@ module.exports = function(socket) {
 
   });
 
+  //komentar
+
   socket.on('post:komentar', function(data) {
     logger.debug(data);
     socket.broadcast.emit('post:komentar', data);
@@ -37,6 +39,24 @@ module.exports = function(socket) {
       post.komentar.push({
         nama: data.nama,
         komentar: data.komentar
+      });
+
+      post.save();
+    });
+
+  });
+
+  //like
+
+  socket.on('post:like', function(data) {
+    logger.debug(data);
+    socket.broadcast.emit('post:like', data);
+
+    Post.findOne({
+      _id: data.id
+    }, function(err, post) {
+      post.like.push({
+        nama: data.nama
       });
 
       post.save();
