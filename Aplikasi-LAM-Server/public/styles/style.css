@@ -33,3 +33,9 @@ p {
 .margin-bot {
     margin-bottom:50px;
 }
+
+[scroll-glue-bottom],
+[scroll-glue]{
+  height: 300px;
+  overflow-y: scroll;
+}
