@@ -19,6 +19,7 @@ var bodyParser = require('body-parser');
 var logger = require('./configs/logger');
 
 var User = require('./models/user');
+var Post = require('./models/post');
 
 var UserRoute = require('./routers/UserRoute');
 var PostRoute = require('./routers/PostRoute');
@@ -82,6 +83,14 @@ passport.use(new LocalStrategy(
 ));
 
 app.use('/api', UserRoute);
+app.get('/api/post', function(req, res) {
+  Post.find({}).sort({
+    tanggal: 'desc'
+  }).exec(function(err, posts) {
+    if (err) console.log(err);
+    return res.json(posts);
+  });
+});
 
 //batas csrf
 app.use(csrfProtection);
