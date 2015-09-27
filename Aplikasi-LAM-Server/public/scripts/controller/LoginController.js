@@ -7,6 +7,7 @@ angular.module('AplikasiLAM')
       UserService.getNamaUser(l).success(function(data) {
         ipCookie('email', data.email);
         ipCookie('nama', data.nama);
+        $scope.namaUser = data.nama;
       });
     };
 
