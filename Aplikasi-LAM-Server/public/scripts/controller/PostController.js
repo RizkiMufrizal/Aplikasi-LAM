@@ -5,6 +5,7 @@ angular.module('AplikasiLAM')
 
     $scope.dataPost = [];
     $scope.dataPostKirim = {};
+    $scope.inputDataPost = {};
 
     Socket.on('post:init', function(data) {
       console.log(data);
@@ -23,9 +24,9 @@ angular.module('AplikasiLAM')
         isiPost: $scope.dataPostKirim.isiPost,
         tanggal: $scope.dataPostKirim.isiPost
       });
-      console.log($scope.dataPostKirim);
 
       Socket.emit('post:kirim', $scope.dataPostKirim);
+      $scope.inputDataPost.isiPost = '';
     };
 
     Socket.on('post:kirim', function(data) {
@@ -38,9 +39,11 @@ angular.module('AplikasiLAM')
       $scope.$apply();
     });
 
-    $scope.kirimKomentar = function(komentar, id) {
+    $scope.inputKomentar = {};
+
+    $scope.kirimKomentar = function(inputKomentar, id) {
       $scope.dataKomentar = {};
-      $scope.dataKomentar.komentar = komentar;
+      $scope.dataKomentar.komentar = inputKomentar.komentar;
       $scope.dataKomentar.id = id;
       $scope.dataKomentar.nama = ipCookie('nama');
 
@@ -48,12 +51,13 @@ angular.module('AplikasiLAM')
         if ($scope.dataPost[i]._id === id) {
           $scope.dataPost[i].komentar.push({
             nama: ipCookie('nama'),
-            komentar: komentar
+            komentar: inputKomentar.komentar
           });
         }
       }
 
       Socket.emit('post:komentar', $scope.dataKomentar);
+      $scope.inputKomentar.komentar = '';
     };
 
     Socket.on('post:komentar', function(data) {
@@ -68,5 +72,9 @@ angular.module('AplikasiLAM')
       $scope.$apply();
 
     });
+
+    $scope.munculKomentar = function(id) {
+      $scope.dataId = id;
+    };
 
   }]);
