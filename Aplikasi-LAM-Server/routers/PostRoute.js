@@ -9,7 +9,6 @@ module.exports = function(socket) {
 
   socket.on('post:kirim', function(data) {
     logger.debug(data);
-    socket.broadcast.emit('post:kirim', data);
     var post = new Post({
       email: data.email,
       nama: data.nama,
@@ -17,8 +16,10 @@ module.exports = function(socket) {
       tanggal: data.tanggal
     });
 
-    post.save(function(err) {
+    post.save(function(err, post) {
       if (err) logger.error(err);
+      data.id = post._id;
+      socket.broadcast.emit('post:kirim', data);
     });
 
   });
@@ -32,6 +33,7 @@ module.exports = function(socket) {
     Post.findOne({
       _id: data.id
     }, function(err, post) {
+
       post.komentar.push({
         nama: data.nama,
         komentar: data.komentar
@@ -48,9 +50,12 @@ module.exports = function(socket) {
     logger.debug(data);
     socket.broadcast.emit('post:like', data);
 
+    console.log(data.id);
+
     Post.findOne({
       _id: data.id
     }, function(err, post) {
+
       post.like.push({
         nama: data.nama
       });
