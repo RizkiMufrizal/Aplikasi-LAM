@@ -4,7 +4,8 @@ angular
   .module('AplikasiLAM', [
     'ngRoute',
     'btford.socket-io',
-    'ipCookie'
+    'ipCookie',
+    'luegg.directives'
   ])
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
