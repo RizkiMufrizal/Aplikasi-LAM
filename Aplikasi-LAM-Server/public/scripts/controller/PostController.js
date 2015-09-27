@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('AplikasiLAM')
-  .controller('PostController', ['$scope', 'Socket', 'ipCookie', function($scope, Socket, ipCookie) {
+  .controller('PostController', ['$scope', 'Socket', 'ipCookie', 'PostService', function($scope, Socket, ipCookie, PostService) {
 
     $scope.dataPost = [];
     $scope.dataTimeLine = [];
@@ -9,9 +9,13 @@ angular.module('AplikasiLAM')
     $scope.inputDataPost = {};
     $scope.glued = true;
 
-    Socket.on('post:init', function(data) {
-      $scope.dataPost = data;
-    });
+    function initPost() {
+      PostService.getPosts().success(function(data) {
+        $scope.dataPost = data;
+      })
+    }
+
+    initPost();
 
     $scope.kirimAspirasi = function(isiPost) {
       $scope.dataPostKirim.nama = ipCookie('nama');
@@ -19,11 +23,11 @@ angular.module('AplikasiLAM')
       $scope.dataPostKirim.isiPost = isiPost;
       $scope.dataPostKirim.tanggal = new Date();
 
-      $scope.dataPost.push({
+      $scope.dataPost.unshift({
         nama: $scope.dataPostKirim.nama,
         email: $scope.dataPostKirim.email,
         isiPost: $scope.dataPostKirim.isiPost,
-        tanggal: $scope.dataPostKirim.isiPost
+        tanggal: $scope.dataPostKirim.tanggal
       });
 
       Socket.emit('post:kirim', $scope.dataPostKirim);
@@ -31,14 +35,14 @@ angular.module('AplikasiLAM')
     };
 
     Socket.on('post:kirim', function(data) {
-      $scope.dataPost.push({
+      $scope.dataPost.unshift({
         nama: data.nama,
         email: data.email,
         isiPost: data.isiPost,
         tanggal: data.isiPost
       });
 
-      $scope.dataTimeLine.push({
+      $scope.dataTimeLine.unshift({
         nama: data.nama,
         isiPost: data.isiPost
       });
@@ -63,7 +67,7 @@ angular.module('AplikasiLAM')
             $scope.dataPost[i].komentar = [];
           }
 
-          $scope.dataPost[i].komentar.push({
+          $scope.dataPost[i].komentar.unshift({
             nama: ipCookie('nama'),
             komentar: inputKomentar.komentar
           });
@@ -82,11 +86,11 @@ angular.module('AplikasiLAM')
             $scope.dataPost[i].komentar = [];
           }
 
-          $scope.dataPost[i].komentar.push({
+          $scope.dataPost[i].komentar.unshift({
             nama: data.nama,
             komentar: data.komentar
           });
-          $scope.dataTimeLine.push({
+          $scope.dataTimeLine.unshift({
             namaKomentator: data.nama,
             komentar: true,
             nama: $scope.dataPost[i].nama
@@ -116,7 +120,7 @@ angular.module('AplikasiLAM')
             $scope.dataPost[i].like = [];
           }
 
-          $scope.dataPost[i].like.push({
+          $scope.dataPost[i].like.unshift({
             nama: ipCookie('nama')
           });
         }
@@ -133,10 +137,10 @@ angular.module('AplikasiLAM')
             $scope.dataPost[i].like = [];
           }
 
-          $scope.dataPost[i].like.push({
+          $scope.dataPost[i].like.unshift({
             nama: data.nama
           });
-          $scope.dataTimeLine.push({
+          $scope.dataTimeLine.unshift({
             namaLike: data.nama,
             like: true,
             nama: $scope.dataPost[i].nama
