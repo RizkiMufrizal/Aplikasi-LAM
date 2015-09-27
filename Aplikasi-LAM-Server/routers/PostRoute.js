@@ -7,10 +7,6 @@ module.exports = function(socket) {
 
   console.log('socket connected');
 
-  Post.find(function(err, posts) {
-    socket.emit('post:init', posts);
-  });
-
   socket.on('post:kirim', function(data) {
     logger.debug(data);
     socket.broadcast.emit('post:kirim', data);
