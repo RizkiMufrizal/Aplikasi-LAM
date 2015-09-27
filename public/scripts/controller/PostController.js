@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('AplikasiLAM')
-  .controller('PostController', ['$scope', 'Socket', 'ipCookie', 'PostService', 'notify', '$window', function($scope, Socket, ipCookie, PostService, notify, $window) {
+  .controller('PostController', ['$scope', 'Socket', 'ipCookie', 'PostService', '$window', function($scope, Socket, ipCookie, PostService, $window) {
 
     $scope.dataPost = [];
     $scope.dataTimeLine = [];
@@ -47,12 +47,6 @@ angular.module('AplikasiLAM')
       $scope.dataTimeLine.unshift({
         nama: data.nama,
         isiPost: data.isiPost
-      });
-
-      notify({
-        message: data.nama + ' Mengirim Aspirasi',
-        position: 'right',
-        duration: 5000
       });
 
       $scope.$apply();
@@ -103,12 +97,6 @@ angular.module('AplikasiLAM')
             komentar: true,
             nama: $scope.dataPost[i].nama
           });
-
-          notify({
-            message: data.nama + ' Mengomentari aspirasi ' + $scope.dataPost[i].nama,
-            position: 'right',
-            duration: 5000
-          });
         }
       }
 
@@ -158,12 +146,6 @@ angular.module('AplikasiLAM')
             namaLike: data.nama,
             like: true,
             nama: $scope.dataPost[i].nama
-          });
-
-          notify({
-            message: data.nama + ' Menyukai aspirasi ' + $scope.dataPost[i].nama,
-            position: 'right',
-            duration: 5000
           });
         }
       }

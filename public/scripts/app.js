@@ -5,8 +5,7 @@ angular
     'ngRoute',
     'btford.socket-io',
     'ipCookie',
-    'luegg.directives',
-    'cgNotify'
+    'luegg.directives'
   ])
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
