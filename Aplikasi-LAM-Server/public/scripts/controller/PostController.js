@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('AplikasiLAM')
-  .controller('PostController', ['$scope', 'Socket', 'ipCookie', 'PostService', function($scope, Socket, ipCookie, PostService) {
+  .controller('PostController', ['$scope', 'Socket', 'ipCookie', 'PostService', 'notify', '$window', function($scope, Socket, ipCookie, PostService, notify, $window) {
 
     $scope.dataPost = [];
     $scope.dataTimeLine = [];
@@ -12,7 +12,7 @@ angular.module('AplikasiLAM')
     function initPost() {
       PostService.getPosts().success(function(data) {
         $scope.dataPost = data;
-      })
+      });
     }
 
     initPost();
@@ -32,10 +32,12 @@ angular.module('AplikasiLAM')
 
       Socket.emit('post:kirim', $scope.dataPostKirim);
       $scope.inputDataPost.isiPost = '';
+      $window.location.reload();
     };
 
     Socket.on('post:kirim', function(data) {
       $scope.dataPost.unshift({
+        _id: data.id,
         nama: data.nama,
         email: data.email,
         isiPost: data.isiPost,
@@ -45,6 +47,12 @@ angular.module('AplikasiLAM')
       $scope.dataTimeLine.unshift({
         nama: data.nama,
         isiPost: data.isiPost
+      });
+
+      notify({
+        message: data.nama + ' Mengirim Aspirasi',
+        position: 'right',
+        duration: 5000
       });
 
       $scope.$apply();
@@ -95,6 +103,12 @@ angular.module('AplikasiLAM')
             komentar: true,
             nama: $scope.dataPost[i].nama
           });
+
+          notify({
+            message: data.nama + ' Mengomentari aspirasi ' + $scope.dataPost[i].nama,
+            position: 'right',
+            duration: 5000
+          });
         }
       }
 
@@ -144,6 +158,12 @@ angular.module('AplikasiLAM')
             namaLike: data.nama,
             like: true,
             nama: $scope.dataPost[i].nama
+          });
+
+          notify({
+            message: data.nama + ' Menyukai aspirasi ' + $scope.dataPost[i].nama,
+            position: 'right',
+            duration: 5000
           });
         }
       }
