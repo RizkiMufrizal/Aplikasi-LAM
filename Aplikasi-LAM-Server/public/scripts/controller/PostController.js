@@ -4,11 +4,12 @@ angular.module('AplikasiLAM')
   .controller('PostController', ['$scope', 'Socket', 'ipCookie', function($scope, Socket, ipCookie) {
 
     $scope.dataPost = [];
+    $scope.dataTimeLine = [];
     $scope.dataPostKirim = {};
     $scope.inputDataPost = {};
+    $scope.glued = true;
 
     Socket.on('post:init', function(data) {
-      console.log(data);
       $scope.dataPost = data;
     });
 
@@ -36,8 +37,16 @@ angular.module('AplikasiLAM')
         isiPost: data.isiPost,
         tanggal: data.isiPost
       });
+
+      $scope.dataTimeLine.push({
+        nama: data.nama,
+        isiPost: data.isiPost
+      });
+
       $scope.$apply();
     });
+
+    //komentar
 
     $scope.inputKomentar = {};
 
@@ -49,6 +58,11 @@ angular.module('AplikasiLAM')
 
       for (var i in $scope.dataPost) {
         if ($scope.dataPost[i]._id === id) {
+
+          if ($scope.dataPost[i].komentar === undefined) {
+            $scope.dataPost[i].komentar = [];
+          }
+
           $scope.dataPost[i].komentar.push({
             nama: ipCookie('nama'),
             komentar: inputKomentar.komentar
@@ -63,12 +77,23 @@ angular.module('AplikasiLAM')
     Socket.on('post:komentar', function(data) {
       for (var i in $scope.dataPost) {
         if ($scope.dataPost[i]._id === data.id) {
+
+          if ($scope.dataPost[i].komentar === undefined) {
+            $scope.dataPost[i].komentar = [];
+          }
+
           $scope.dataPost[i].komentar.push({
             nama: data.nama,
             komentar: data.komentar
           });
+          $scope.dataTimeLine.push({
+            namaKomentator: data.nama,
+            komentar: true,
+            nama: $scope.dataPost[i].nama
+          });
         }
       }
+
       $scope.$apply();
 
     });
@@ -76,5 +101,52 @@ angular.module('AplikasiLAM')
     $scope.munculKomentar = function(id) {
       $scope.dataId = id;
     };
+
+    //like
+
+    $scope.kirimLike = function(id) {
+      $scope.dataLike = {};
+      $scope.dataLike.id = id;
+      $scope.dataLike.nama = ipCookie('nama');
+
+      for (var i in $scope.dataPost) {
+        if ($scope.dataPost[i]._id === id) {
+
+          if ($scope.dataPost[i].like === undefined) {
+            $scope.dataPost[i].like = [];
+          }
+
+          $scope.dataPost[i].like.push({
+            nama: ipCookie('nama')
+          });
+        }
+      }
+
+      Socket.emit('post:like', $scope.dataLike);
+    };
+
+    Socket.on('post:like', function(data) {
+      for (var i in $scope.dataPost) {
+        if ($scope.dataPost[i]._id === data.id) {
+
+          if ($scope.dataPost[i].like === undefined) {
+            $scope.dataPost[i].like = [];
+          }
+
+          $scope.dataPost[i].like.push({
+            nama: data.nama
+          });
+          $scope.dataTimeLine.push({
+            namaLike: data.nama,
+            like: true,
+            nama: $scope.dataPost[i].nama
+          });
+        }
+      }
+
+      $scope.$apply();
+
+    });
+
 
   }]);
